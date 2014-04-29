@@ -5,8 +5,8 @@ import xml.dom.minidom
 import re
 
 class YoutubeCrawler(object):
-  def __init__(self, first_movie_videoids):
-    self.first_movie_videoids = first_movie_videoids
+  def __init__(self, first_videoids):
+    self.first_videoids = first_videoids
     self.base_url = "http://gdata.youtube.com/feeds/api/videos/{}"
 
   def crawl(self, depth):
