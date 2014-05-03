@@ -9,8 +9,26 @@ class YoutubeCrawler(object):
     self.first_videoids = first_videoids
     self.base_url = "http://gdata.youtube.com/feeds/api/videos/{}"
 
-  def crawl(self, depth):
-    pass
+  def crawl(self, depth=3):
+    """
+    This method fetchs video data from first_videoids which is gived in constructor.
+    First of all, this method searches videos which is cnotained of first_videoids.
+    Next, this method searches related videos about the video.
+    And repeatdo over again.
+
+    >>> crawler = YoutubeCrawler([
+    ...  "MNot3VykMEU",
+    ...  "NDK3mBQy5tQ",
+    ... ])
+    >>> crawler.crawl(2)
+    {...}
+    """
+    crawl_videos = {}
+    for videoid in self.first_videoids:
+      videodata = self._fetch_videodata__from_videoid(videoid)
+      crawl_videos[videoid] = videodata
+    return craw_videos
+
   def _fetch_videodata__from_videoid(self, videoid):
     """
     >>> crawler = YoutubeCrawler([])
@@ -53,8 +71,9 @@ class YoutubeCrawler(object):
     >>> crawler._get_videoid_from_url("http://gdata.youtube.com/feeds/api/videos/6bM5SzQFpZQ")
     '6bM5SzQFpZQ'
     """
-    videoid_re = re.search("/([\w]*)$", url)
+    videoid_re = re.search("/([\w-]*)$", url)
     videoid = videoid_re.group(1)
+
     return videoid
 
 if __name__ == "__main__":
